@@ -1,7 +1,8 @@
 #!/bin/sh
 cd "/github/workspace"
 
-changed_filenames_file=".clang-format-$$.changed.tmp"
+changed_filenames_file="$RUNNER_TEMP/.clang-format-$$.changed.tmp"
+echo "$changed_filenames_file"
 
 echo "diff1"
 git diff --diff-filter=ACMRT --name-only "$PR_BASE".."$PR_HEAD" 
