@@ -1,8 +1,4 @@
 #!/bin/sh
-set -x
-
-echo "ws: /github/workspace"
-ls -al "/github/workspace"
 cd "/github/workspace"
 
 changed_filenames_file=".clang-format-$$.changed.tmp"
