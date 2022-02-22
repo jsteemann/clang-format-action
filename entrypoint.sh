@@ -9,11 +9,11 @@ if [ -s "$changed_files_filename" ]; then
   sort "$changed_files_filename" | grep -E "\.\(ipp|tpp|cpp|hpp|cc|c|h\)$" | uniq > "$changed_files_filename.sorted"
 
   echo 
-  echo "About to check formatting on the following files:"
+  echo "about to check formatting on the following files:"
   cat -n "$changed_files_filename.sorted"
   echo
 else
-  echo "No changes. Nothing to do"
+  echo "no changes, nothing to do"
   exit 0
 fi
 
@@ -60,3 +60,5 @@ then
   echo
   exit 1
 fi
+
+echo "no errors!"
