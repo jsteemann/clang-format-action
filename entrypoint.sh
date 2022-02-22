@@ -1,11 +1,11 @@
 #!/bin/sh
 set -x
 
-cd arangodb
+env
 
 changed_files_filename=".clang-format-$$.changed.tmp"
 
-git diff --diff-filter=ACMRT --name-only ORIG_HEAD -- arangod/ lib/ client-tools/ tests/ | grep -e '\.ipp$' -e '\.tpp$' -e '\.cpp$' -e '\.hpp$' -e '\.cc$' -e '\.c$' -e '\.h$' > "$changed_files_filename"
+git diff --diff-filter=ACMRT --name-only "$PR_BASE".."$PR_HEAD" -- arangod/ lib/ client-tools/ tests/ | grep -e '\.ipp$' -e '\.tpp$' -e '\.cpp$' -e '\.hpp$' -e '\.cc$' -e '\.c$' -e '\.h$' > "$changed_files_filename"
 
 # temporary file for diffs
 temp_file=".clang-format-$$.reformat.tmp"
