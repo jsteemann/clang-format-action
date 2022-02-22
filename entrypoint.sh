@@ -3,6 +3,13 @@ cd "/github/workspace"
 
 changed_filenames_file=".clang-format-$$.changed.tmp"
 
+echo "diff1"
+git diff --diff-filter=ACMRT --name-only "$PR_BASE".."$PR_HEAD" 
+echo "diff2"
+git diff --diff-filter=ACMRT --name-only "$PR_BASE".."$PR_HEAD" -- arangod/ lib/ client-tools/ tests/
+echo "diff3"
+git diff --diff-filter=ACMRT --name-only "$PR_BASE".."$PR_HEAD" -- arangod/ lib/ client-tools/ tests/ | grep -e '\.ipp$' -e '\.tpp$' -e '\.cpp$' -e '\.hpp$' -e '\.cc$' -e '\.c$' -e '\.h$' 
+
 git diff --diff-filter=ACMRT --name-only "$PR_BASE".."$PR_HEAD" -- arangod/ lib/ client-tools/ tests/ | grep -e '\.ipp$' -e '\.tpp$' -e '\.cpp$' -e '\.hpp$' -e '\.cc$' -e '\.c$' -e '\.h$' > "$changed_filenames_file"
 
 if [ -s "$changed_files_filename" ]; then
