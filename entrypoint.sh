@@ -1,9 +1,13 @@
 #!/bin/sh
 set -x
 
-env
-
 changed_files_filename=".clang-format-$$.changed.tmp"
+
+echo "github env:"
+ls -al "$GITHUB_ENV"
+echo "github path:"
+ls -al "$GITHUB_PATH"
+cd "$GITHUB_PATH"
 
 git diff --diff-filter=ACMRT --name-only "$PR_BASE".."$PR_HEAD" -- arangod/ lib/ client-tools/ tests/ | grep -e '\.ipp$' -e '\.tpp$' -e '\.cpp$' -e '\.hpp$' -e '\.cc$' -e '\.c$' -e '\.h$' > "$changed_files_filename"
 
