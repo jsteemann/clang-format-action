@@ -9,8 +9,18 @@ changed_filenames_file=".clang-format-$$.changed.tmp"
 
 git diff --diff-filter=ACMRT --name-only "$PR_BASE".."$PR_HEAD" -- arangod/ lib/ client-tools/ tests/ | grep -e '\.ipp$' -e '\.tpp$' -e '\.cpp$' -e '\.hpp$' -e '\.cc$' -e '\.c$' -e '\.h$' > "$changed_filenames_file"
 
-echo "changes:"
-cat "$changed_filenames_file"
+if [ -s "$changed_files_filename" ]; then
+  sort "$changed_files_filename" | grep -E "\.\(ipp|tpp|cpp|hpp|cc|c|h\)$" | uniq > "$changed_files_filename.sorted"
+
+  echo 
+  echo "About to check formatting on the following files:"
+  cat -n "$changed_files_filename.sorted"
+  echo
+else
+  echo "No changes. Nothing to do"
+  exit 0
+fi
+
 # output version info
 clang-format --version
 
