@@ -3,9 +3,9 @@ set -x
 
 changed_files_filename="$RUNNER_TEMP/.clang-format-$$.changed.tmp"
 
-echo "ws:"
-ls -al "$RUNNER_WORKSPACE"
-cd "$RUNNER_WORKSPACE"
+echo "ws: /github/workspace"
+ls -al "/github/workspace"
+cd "/github/workspace"
 
 git diff --diff-filter=ACMRT --name-only "$PR_BASE".."$PR_HEAD" -- arangod/ lib/ client-tools/ tests/ | grep -e '\.ipp$' -e '\.tpp$' -e '\.cpp$' -e '\.hpp$' -e '\.cc$' -e '\.c$' -e '\.h$' > "$changed_files_filename"
 
