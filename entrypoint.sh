@@ -1,14 +1,10 @@
 #!/bin/sh
 cd "/github/workspace"
 
-changed_filenames_file="/tmp/.clang-format-$$.changed.tmp"
-echo "$changed_filenames_file"
+changed_files_filename="/tmp/.clang-format-$$.changed.tmp"
 
-git diff --diff-filter=ACMRT --name-only "$PR_BASE".."$PR_HEAD" -- arangod/ lib/ client-tools/ tests/ | grep -e '\.ipp$' -e '\.tpp$' -e '\.cpp$' -e '\.hpp$' -e '\.cc$' -e '\.c$' -e '\.h$' > "$changed_filenames_file"
+git diff --diff-filter=ACMRT --name-only "$PR_BASE".."$PR_HEAD" -- arangod/ lib/ client-tools/ tests/ | grep -e '\.ipp$' -e '\.tpp$' -e '\.cpp$' -e '\.hpp$' -e '\.cc$' -e '\.c$' -e '\.h$' > "$changed_files_filename"
 
-echo "changes:"
-cat -n "$changed_files_filename"
-echo "done"
 if [ -s "$changed_files_filename" ]; then
   sort "$changed_files_filename" | grep -E "\.\(ipp|tpp|cpp|hpp|cc|c|h\)$" | uniq > "$changed_files_filename.sorted"
 
@@ -24,10 +20,10 @@ fi
 # output version info
 clang-format --version
 
-# count number of lines in $changed_filenames_file
-checked=$(wc -l "$changed_filenames_file" | cut -d " " -f 1)
+# count number of lines in $changed_files_filename
+checked=$(wc -l "$changed_files_filename" | cut -d " " -f 1)
 
-# read $changed_filenames_file line by line and run clang-format on each filename
+# read $changed_files_filename line by line and run clang-format on each filename
 echo "checking $checked file(s)..."
 formatted=0
 passed=0
@@ -54,7 +50,7 @@ while read -r file
       exit 2
     fi
 
-  done < "$changed_filenames_file" 
+  done < "$changed_files_filename" 
 
 echo
 
