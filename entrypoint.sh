@@ -5,12 +5,12 @@ echo "ws: /github/workspace"
 ls -al "/github/workspace"
 cd "/github/workspace"
 
-changed_files_filename=".clang-format-$$.changed.tmp"
+changed_filenames_file=".clang-format-$$.changed.tmp"
 
-git diff --diff-filter=ACMRT --name-only "$PR_BASE".."$PR_HEAD" -- arangod/ lib/ client-tools/ tests/ | grep -e '\.ipp$' -e '\.tpp$' -e '\.cpp$' -e '\.hpp$' -e '\.cc$' -e '\.c$' -e '\.h$' > "$changed_files_filename"
+git diff --diff-filter=ACMRT --name-only "$PR_BASE".."$PR_HEAD" -- arangod/ lib/ client-tools/ tests/ | grep -e '\.ipp$' -e '\.tpp$' -e '\.cpp$' -e '\.hpp$' -e '\.cc$' -e '\.c$' -e '\.h$' > "$changed_filenames_file"
 
 echo "changes:"
-cat "$changed_files_filename"
+cat "$changed_filenames_file"
 # output version info
 clang-format --version
 
